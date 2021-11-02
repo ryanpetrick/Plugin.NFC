@@ -205,10 +205,6 @@ namespace Plugin.NFC
 						// let the user decide if ndef support is needed
 						OnMessageReceived?.Invoke(nTag);
 
-						OnError?.Invoke(
-							new DebugInfo("Ndef is not supported!", string.Empty, _tag.Type.ToString(), tags.Length, string.Empty, string.Empty, nTag)
-							);
-
 						Invalidate(session);
 
 						return;

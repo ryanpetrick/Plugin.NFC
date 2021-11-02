@@ -24,7 +24,7 @@
 		public string ErrorCode { get; set; }
 
 		/// <summary>
-		/// Custom contructor
+		/// Initializes a new instance of the <see cref="DebugInfo"/> class.
 		/// </summary>
 		/// <param name="message">The custom debug message.</param>
 		/// <param name="description">The description.</param>
@@ -45,7 +45,7 @@
 		}
 
 		/// <summary>
-		/// Custom contructor
+		/// Initializes a new instance of the <see cref="DebugInfo"/> class.
 		/// </summary>
 		/// <param name="message">The custom debug message.</param>
 		/// <param name="tagInfo">The tag info.</param>
