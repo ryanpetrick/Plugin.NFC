@@ -248,7 +248,45 @@ namespace Plugin.NFC
 					}
 				}
 				else
-					throw new Exception(Configuration.Messages.NFCErrorNotCompliantTag);
+				{
+					var ndefFormatable = NdefFormatable.Get(_currentTag);
+					try
+					{
+						ndefFormatable.Connect();
+						if (ndefFormatable.IsConnected)
+						{
+							ndefFormatable.Format(GetEmptyNdefMessage());
+							var nTag = GetTagInfo(_currentTag, ndef.NdefMessage);
+							OnMessagePublished?.Invoke(nTag);
+						}
+					}
+
+					catch (Android.Nfc.TagLostException tlex)
+					{
+						throw new Exception("Tag Lost Error: " + tlex.Message);
+					}
+					catch (Java.IO.IOException ioex)
+					{
+						throw new Exception("Tag IO Error: " + ioex.Message);
+					}
+					catch (Android.Nfc.FormatException fe)
+					{
+						throw new Exception("Tag Format Error: " + fe.Message);
+					}
+					catch (Exception ex)
+					{
+						throw new Exception("Tag Error:" + ex.Message);
+					}
+					finally
+					{
+						if (ndefFormatable.IsConnected)
+						{
+							ndefFormatable.Close();
+						}
+						_currentTag = null;
+						OnTagDisconnected?.Invoke(null, EventArgs.Empty);
+					}
+				}
 			} 
 			catch (Exception ex)
 			{
